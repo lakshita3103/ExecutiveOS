@@ -1,16 +1,26 @@
-# React + Vite
+# ExecutiveOS — Client
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A personal executive dashboard (Dashboard, Calendar, Tasks, Notes, Documents, Finance, AI Assistant) built with React + Vite.
 
-Currently, two official plugins are available:
+## Run it
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+npm install
+npm run dev
+```
 
-## React Compiler
+Then open the printed local URL (usually http://localhost:5173).
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Build for production
 
-## Expanding the ESLint configuration
+```bash
+npm run build
+npm run preview
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Notes
+
+- Data persists to the browser's `localStorage` (see `src/services/storage.js`), so everything you add/edit/delete survives a refresh — no backend required.
+- Dark mode toggle lives in the top bar; theme is also saved to localStorage.
+- The "Today's Focus" card on the Dashboard is live-derived from your Tasks — mark a task done (or star a task to pin it as the focus) on the Tasks page and the Dashboard updates immediately, because both pages read from the same shared app state (`src/context/AppContext.jsx`).
+- The AI Assistant page calls the Anthropic API directly from the browser. That requires an API key, which should never be shipped in client-side code for a real deployed app — wire it through your own backend proxy before shipping. Out of the box, `src/pages/AIAssistant.jsx` shows a friendly explanation instead of making the raw call, with a single spot to plug in your proxy endpoint.
