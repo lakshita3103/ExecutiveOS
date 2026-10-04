@@ -1,5 +1,5 @@
 import React, { useMemo, useRef, useState, useEffect } from "react";
-import { Search, Bell, Sun, Moon, X } from "lucide-react";
+import { Search, Bell, Sun, Moon, X, Menu } from "lucide-react";
 import { useApp } from "../context/AppContext";
 import { todayISO, formatNiceDate} from "../utils/date";
 import ProfileModal from "./ProfileModal";
@@ -12,7 +12,7 @@ function useOutsideClose(ref, onClose) {
   }, [ref, onClose]);
 }
 
-export default function TopBar({ goto }) {
+export default function TopBar({ goto, onMenuClick }) {
   const { data, patch } = useApp();
   const isDark = data.theme === "dark";
   const initials = (data.user.name || "U").split(" ").map((w) => w[0]).slice(0, 2).join("").toUpperCase();
@@ -53,6 +53,14 @@ export default function TopBar({ goto }) {
 
   return (
     <div className="exos-topbar">
+      <button
+        className="exos-menu-btn"
+        onClick={onMenuClick}
+        aria-label="Open menu"
+      >
+        <Menu size={18} />
+      </button>
+
       <div className="exos-search-wrap" ref={searchRef}>
         <div className="exos-search" onClick={() => setSearchOpen(true)}>
           <Search size={15} />

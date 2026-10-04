@@ -64,6 +64,7 @@ function Shell() {
   const { data } = useApp();
 
   const [page, setPage] = useState(pageFromHash());
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   /* Listen for browser/hash navigation */
   useEffect(() => {
@@ -86,6 +87,7 @@ function Shell() {
         : `/${key}`;
 
     setPage(key);
+    setSidebarOpen(false); // close the mobile drawer on any navigation
   };
 
   /* -------------------------------------------------------
@@ -119,12 +121,15 @@ function Shell() {
         <Sidebar
           page={page}
           goto={goto}
+          open={sidebarOpen}
+          onClose={() => setSidebarOpen(false)}
         />
 
         <div className="exos-main">
 
           <TopBar
             goto={goto}
+            onMenuClick={() => setSidebarOpen(true)}
           />
 
           <div className="exos-content">
