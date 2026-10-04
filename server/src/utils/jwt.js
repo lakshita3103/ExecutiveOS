@@ -18,10 +18,15 @@ export function verifySession(token) {
 // attributes — a mismatch (e.g. different `path`) is a classic way a
 // "clear cookie" call silently fails to actually clear it.
 export function cookieOptions() {
+  // Cross-domain deployments (frontend on one domain, API on another)
+  // require SameSite=None, which browsers only honor when Secure is also
+  // true (HTTPS). Locally, frontend and backend share "localhost" as
+  // their site even on different ports, so Lax still works there.
+  const crossSite = env.COOKIE_SECURE;
   return {
     httpOnly: true,
-    sameSite: "lax",
-    secure: env.COOKIE_SECURE,
+    sameSite: crossSite ? "none" : "lax",
+    secure: crossSite,
     path: "/",
   };
 }
